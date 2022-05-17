@@ -3,6 +3,8 @@ import "./App.css";
 import styled from "@emotion/styled";
 import { Global, css } from "@emotion/react";
 import InputField from "./components/InputField";
+import { Todo } from "./model";
+import TodoList from "./components/TodoList";
 
 //Global Resets and Font
 const GlobalStyles = css`
@@ -32,15 +34,28 @@ const HeaderHeading = styled("h1")((props) => ({
 
 const App: React.FC = () => {
   const [todo, setTodo] = useState<string>("");
+  const [todos, setTodos] = useState<Todo[]>([]);
 
-  console.log(todo);
+  const handleAdd = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (todo) {
+      setTodos([...todos, { id: Date.now(), todo, isDone: false }]);
+      setTodo("");
+    }
+  };
 
   return (
     <>
       <Global styles={GlobalStyles} />
       <Body>
         <HeaderHeading>TASKIFY</HeaderHeading>
-        <InputField todo={todo} setTodo={setTodo}></InputField>
+        <InputField
+          todo={todo}
+          setTodo={setTodo}
+          handleAdd={handleAdd}
+        ></InputField>
+        <TodoList todos={todos} setTodos={setTodos}></TodoList>
       </Body>
     </>
   );
