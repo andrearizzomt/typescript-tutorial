@@ -44,11 +44,12 @@ const Button = styled("button")`
 interface Props {
   todo: string;
   setTodo: React.Dispatch<React.SetStateAction<string>>;
+  handleAdd: (e: React.FormEvent) => void;
 }
 
-const InputField = ({ todo, setTodo }: Props) => {
+const InputField = ({ todo, setTodo, handleAdd }: Props) => {
   return (
-    <Form>
+    <Form onSubmit={handleAdd}>
       <InputBox
         value={todo}
         onChange={(e) => setTodo(e.target.value)}
